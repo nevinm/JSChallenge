@@ -1,14 +1,14 @@
-
 Logic: 
 [5, 10, 15, 20, 20, 30] = 100 (Basically 100%) -> Areas of smaller rectangle.
 
 
-Assume we have a static rectangle of 100*50
+We have a static rectangle of 100*50
 
 
 [5,10] [15,20] [20,30]
 
 [a, b, c, d, e, f, g, h, i, j, k, l, m]
+Divide the full rectangle into smaller ones based on division from the initial data - square root times n.
 
 [2, 3, 5, 10] 
 [4, 6, 3, 7] 

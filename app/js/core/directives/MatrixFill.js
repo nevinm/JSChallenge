@@ -15,8 +15,8 @@ app.directive('matrixFill', ['percentageValues', function(percentageValues) {
 
             //Directive data
             scope.start = 0;
-            scope.totalValue = 0, scope.end = 0;
-            scope.percentagedMatrixData = [];
+            scope.end = 0;
+            scope.percentagedMatrixData;
             scope.renderMatrixObject = [];
             scope.dividingNumber = Math.round(Math.sqrt(scope.matrixData.length));
 
@@ -26,27 +26,28 @@ app.directive('matrixFill', ['percentageValues', function(percentageValues) {
 
             //Starting function
             scope.init = function() {
-                scope.convertToPerc();
-                scope.createUpdatedMatrixObject();
+                scope.percentagedMatrixData = scope.convertToPerc(scope.matrixData);
+                scope.renderMatrixObject = scope.createUpdatedMatrixObject(scope.percentagedMatrixData);
             }
 
-            scope.convertToPerc = function() {
-                angular.forEach(scope.matrixData, function(singleData) {
-                    scope.totalValue = scope.totalValue += singleData;
+            scope.convertToPerc = function(totalMatrix) {
+                var totalValue = 0,
+                    percentagedMatrix = [];
+                angular.forEach(totalMatrix, function(singleData) {
+                    totalValue = totalValue += singleData;
                 });
-                angular.forEach(scope.matrixData, function(singleData, key) {
-                    scope.percentagedMatrixData[key] = (singleData / scope.totalValue) * 100
+                angular.forEach(totalMatrix, function(singleData, key) {
+                    percentagedMatrix[key] = (singleData / totalValue) * percentage;
                 });
-                scope.percentagedMatrixData = percentageValues.returnValues(scope.percentagedMatrixData, percentage);
+                percentagedMatrix = percentageValues.returnValues(percentagedMatrix, percentage);
+                return percentagedMatrix;
             }
 
-            scope.createUpdatedMatrixObject = function() {
-                angular.forEach(scope.percentagedMatrixData, function(value, key) {
-                    if (scope.end < scope.percentagedMatrixData.length) {
-                        var dividedData = scope.divideData();
-                        scope.renderMatrixObject.push(dividedData);
-                    }
+            scope.createUpdatedMatrixObject = function(percentagedMatrix) {
+                angular.forEach(percentagedMatrix, function(value, key) {
+                    renderMatrixObject = scope.divideData(scope.start, scope.end, scope.dividingNumber, percentagedMatrix);
                 });
+                return renderMatrixObject;
             }
 
             scope.sliceArray = function(array, start, end) {
@@ -57,11 +58,20 @@ app.directive('matrixFill', ['percentageValues', function(percentageValues) {
                 return array.slice(start, end);
             }
 
-            scope.divideData = function() {
-                scope.end = (scope.start + scope.dividingNumber);
-                slicedArray = scope.sliceArray(scope.percentagedMatrixData, scope.start, scope.end);
-                return slicedArray;
+            scope.divideData = function(start, end, dividingNumber, percentagedMatrix) {
+                var renderMatrixObject = [];
+                angular.forEach(percentagedMatrix, function(value, key) {
+                    if (end < percentagedMatrix.length) {
+                        start = end;
+                        end = (start + dividingNumber);
+                        slicedArray = scope.sliceArray(percentagedMatrix, start, end);
+                        renderMatrixObject.push(slicedArray);
+                    } else {}
+                });
+
+                return renderMatrixObject;
             }
+
             scope.init();
         },
         controller: function($scope) {
