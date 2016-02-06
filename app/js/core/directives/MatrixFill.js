@@ -10,14 +10,14 @@ app.directive('matrixFill', ['percentageValues', function(percentageValues) {
         link: function(scope, elem, attrs) {
             //Attributes data
             scope.matrixData = JSON.parse(scope.data);
-            scope.height = JSON.parse(scope.height);
-            scope.width = JSON.parse(scope.width);
+            scope.totalHeight = JSON.parse(scope.height);
+            scope.totalWidth = JSON.parse(scope.width);
 
             //Directive data
             scope.start = 0;
             scope.end = 0;
             scope.percentagedMatrixData;
-            scope.renderMatrixObject = [];
+            scope.renderMatrixRatio = [];
             scope.dividingNumber = Math.round(Math.sqrt(scope.matrixData.length));
 
             //Random variables
@@ -27,7 +27,8 @@ app.directive('matrixFill', ['percentageValues', function(percentageValues) {
             //Starting function
             scope.init = function() {
                 scope.percentagedMatrixData = scope.convertToPerc(scope.matrixData);
-                scope.renderMatrixObject = scope.createUpdatedMatrixObject(scope.percentagedMatrixData);
+                scope.renderMatrixRatio = scope.createUpdatedMatrixObject(scope.percentagedMatrixData);
+                scope.renderData = scope.findUnits(scope.renderMatrixRatio, scope.totalWidth);
             }
 
             scope.convertToPerc = function(totalMatrix) {
@@ -70,6 +71,28 @@ app.directive('matrixFill', ['percentageValues', function(percentageValues) {
                 });
 
                 return renderMatrixObject;
+            }
+
+            scope.findUnits = function(renderMatrixRatio, totalWidth) {
+                var totalRenderData = [];
+                angular.forEach(renderMatrixRatio, function(value, key) {
+                    var sum = 0,
+                        ratio = 0,
+                        singularRows = singularColumns = [];
+                    angular.forEach(value, function(innerValue, innerKey) {
+                        sum += innerValue;
+                    });
+                    ratio = totalWidth / sum;
+                    angular.forEach(value, function(innerValue, innerKey) {
+                        singularWidth = ratio * innerValue;
+                        singularRows.push(singularWidth);
+                    });
+                    totalRenderData.push({
+                        "height": sum,
+                        "width": singularRows
+                    });
+                });
+                return totalRenderData;
             }
 
             scope.init();
