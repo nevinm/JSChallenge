@@ -9,6 +9,8 @@
     "angular-ui-router": "~0.2.10",
     "angular-loader": "1.2.x",
     "angular-mocks": "~1.2.x",
-    "html5-boilerplate": "~4.3.0"
+    "html5-boilerplate": "~4.3.0",
+    "underscore": "^1.8.3",
+    "angular-underscore-module": "^1.0.3"
   }
 }

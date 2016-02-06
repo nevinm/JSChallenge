@@ -27,3 +27,8 @@ body {
 .nav:after {
   clear:both;
 }
+
+/*Matrix Fill Chart css starts here */
+.marix-fill-container{
+  border: 1px solid black;
+}

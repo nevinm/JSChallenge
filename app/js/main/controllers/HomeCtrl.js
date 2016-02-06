@@ -1,3 +1,3 @@
-app.controller('HomeCtrl', ['$scope', function($scope) {
+app.controller('HomeCtrl', ['$scope', '_', function($scope, _) {
   
 }]);
