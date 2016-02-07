@@ -2,8 +2,8 @@
   "name": "JS-challenge",
   "private": true,
   "version": "0.0.0",
-  "description": "A starter project for AngularJS",
-  "repository": "https://github.com/dokko1230/angular-ui-seed",
+  "description": "A challenge given to be completed in 2 days",
+  "repository": "https://github.com/nevinm/JSChallenge",
   "devDependencies": {
     "karma": "~0.10",
     "protractor": "~0.20.1",
