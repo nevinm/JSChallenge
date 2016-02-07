@@ -31,7 +31,7 @@ app.directive('matrixFill', ['percentageValues', '$compile', '$timeout',
                 scope.init = function() {
                     scope.setContainerStyles();
                     scope.percentagedMatrixData = scope.convertToPerc(scope.matrixData);
-                    scope.renderMatrixRatio = scope.createUpdatedMatrixObject(scope.percentagedMatrixData);
+                    scope.renderMatrixRatio = scope.createUpdatedMatrixObject(scope.percentagedMatrixData, scope.matrixData);
                     scope.renderData = scope.findUnits(scope.renderMatrixRatio, scope.totalWidth);
                     scope.appendRect(scope.renderData);
                 }
@@ -54,9 +54,16 @@ app.directive('matrixFill', ['percentageValues', '$compile', '$timeout',
                     return percentagedMatrix;
                 }
 
-                scope.createUpdatedMatrixObject = function(percentagedMatrix) {
-                    angular.forEach(percentagedMatrix, function(value, key) {
-                        renderMatrixObject = scope.divideData(scope.start, scope.end, scope.dividingNumber, percentagedMatrix);
+                scope.createUpdatedMatrixObject = function(percentagedMatrix, matrixData) {
+                    var mergedDataObj = [];
+                    for (i = 0; i < percentagedMatrix.length; i++) {
+                        mergedDataObj.push({
+                            "percentageData": percentagedMatrix[i],
+                            "originalData": matrixData[i]
+                        });
+                    }
+                    angular.forEach(mergedDataObj, function(value, key) {
+                        renderMatrixObject = scope.divideData(scope.start, scope.end, scope.dividingNumber, mergedDataObj);
                     });
                     return renderMatrixObject;
                 }
@@ -69,13 +76,13 @@ app.directive('matrixFill', ['percentageValues', '$compile', '$timeout',
                     return array.slice(start, end);
                 }
 
-                scope.divideData = function(start, end, dividingNumber, percentagedMatrix) {
+                scope.divideData = function(start, end, dividingNumber, mergedDataObj) {
                     var renderMatrixObject = [];
-                    angular.forEach(percentagedMatrix, function(value, key) {
-                        if (end < percentagedMatrix.length) {
+                    angular.forEach(mergedDataObj, function(value, key) {
+                        if (end < mergedDataObj.length) {
                             start = end;
                             end = (start + dividingNumber);
-                            slicedArray = scope.sliceArray(percentagedMatrix, start, end);
+                            slicedArray = scope.sliceArray(mergedDataObj, start, end);
                             renderMatrixObject.push(slicedArray);
                         } else {}
                     });
@@ -88,19 +95,27 @@ app.directive('matrixFill', ['percentageValues', '$compile', '$timeout',
                     angular.forEach(renderMatrixRatio, function(value, key) {
                         var sum = 0,
                             ratio = 0,
-                            singularRows = singularColumns = [];
+                            singularRows = [],
+                            originalDataRows = [],
+                            mergedDataRows = [];
                         angular.forEach(value, function(innerValue, innerKey) {
-                            sum += innerValue;
+                            sum += innerValue.percentageData;
                         });
                         ratio = totalWidth / sum;
                         angular.forEach(value, function(innerValue, innerKey) {
-                            singularWidth = parseFloat((ratio * innerValue).toFixed(2));
-                            singularRows.push(singularWidth);
+                            percentageWidth = parseFloat((ratio * innerValue.percentageData).toFixed(2));
+                            originalWidth = innerValue.originalData;
+                            // singularRows.push(percentageWidth);
+                            // originalDataRows.push(innerValue.originalData);
+                            mergedDataRows.push({
+                                "percentageData": percentageWidth,
+                                "originalData": originalWidth
+                            });
                         });
-                        sum = (sum/percentage) * scope.totalHeight;
+                        sum = (sum / percentage) * scope.totalHeight;
                         totalRenderData.push({
                             "height": sum,
-                            "width": singularRows
+                            "width": mergedDataRows
                         });
                     });
                     return totalRenderData;
@@ -112,7 +127,8 @@ app.directive('matrixFill', ['percentageValues', '$compile', '$timeout',
                         angular.forEach(value.width, function(innerValue, innerKey) {
                             var randomColor = '#' + Math.random().toString(16).substr(-6),
                                 rectangleTemplate = angular.element('<div class="rectangle" style="background-color:' + randomColor +
-                                    '; height:' + templateHeight + 'px; width:' + innerValue + 'px"></div>');
+                                    '; height:' + templateHeight + 'px; width:' +
+                                    innerValue.percentageData + 'px"><span class="rectangle-data">' + innerValue.originalData + '</span></div>');
                             parentContainer.append(rectangleTemplate);
                             $compile(rectangleTemplate)(scope);
                         });

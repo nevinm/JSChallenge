@@ -5,9 +5,9 @@ app.service('percentageValues',['_' , function(_) {
             return acc + Math.round(x)
         }, 0);
         return _.chain(array).
-        sortBy(function(x) {
-            return Math.round(x) - x
-        }).
+        // sortBy(function(x) {
+        //     return Math.round(x) - x
+        // }).
         map(function(x, i) {
             return Math.round(x) + (off > i) - (i >= (array.length + off))
         }).
