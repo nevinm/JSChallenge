@@ -28,11 +28,26 @@ app.directive('matrixFill', ['percentageValues', 'createRandomColors', '$compile
 
                 //Starting function
                 scope.init = function() {
-                    scope.setContainerStyles();
-                    scope.percentagedMatrixData = scope.convertToPerc(scope.matrixData);
-                    scope.renderMatrixRatio = scope.createUpdatedMatrixObject(scope.percentagedMatrixData, scope.matrixData);
-                    scope.renderData = scope.findUnits(scope.renderMatrixRatio, scope.totalWidth);
-                    scope.appendRect(scope.renderData);
+                    //Check data for negative values.
+                    if (scope.checkData(scope.matrixData)) {
+                        scope.setContainerStyles();
+                        scope.percentagedMatrixData = scope.convertToPerc(scope.matrixData);
+                        scope.renderMatrixRatio = scope.createUpdatedMatrixObject(scope.percentagedMatrixData, scope.matrixData);
+                        scope.renderData = scope.findUnits(scope.renderMatrixRatio, scope.totalWidth);
+                        scope.appendRect(scope.renderData);
+                    } else {
+                        alert("Enter correct data.")
+                    }
+                }
+
+                scope.checkData = function(data) {
+                    var flag = true;
+                    angular.forEach(data, function(value, key) {
+                        if (value !== undefined && value > 0) {} else {
+                            flag = false;
+                        }
+                    });
+                    return flag;
                 }
 
                 scope.setContainerStyles = function() {
