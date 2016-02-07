@@ -2,7 +2,7 @@ app.directive('matrixFill', ['percentageValues', '$compile', '$timeout',
     function(percentageValues, $compile, $timeout) {
         return {
             restrict: "E",
-            template: '<div class="matrix-fill-container">TEST</div>',
+            template: '<div class="matrix-fill-container"></div>',
             scope: {
                 data: "@",
                 width: "@",
@@ -106,13 +106,16 @@ app.directive('matrixFill', ['percentageValues', '$compile', '$timeout',
                 }
 
                 scope.appendRect = function(renderData) {
-                    var randomColor = "#" + ((1 << 24) * Math.random() | 0).toString(16),
-                        rectangleTemplate = angular.element('<div class="rectangle" style="background-color:' + randomColor + '"></div>');
-                    parentContainer.append(rectangleTemplate);
-                    $compile(rectangleTemplate)(scope);
-                    angular.forEach(renderData, function() {
-                        
-                    }); 
+                    angular.forEach(renderData, function(value, key) {
+                        var templateHeight = value.height;
+                        angular.forEach(value.width, function(innerValue, innerKey) {
+                            var randomColor = '#' + Math.random().toString(16).substr(-6),
+                                rectangleTemplate = angular.element('<div class="rectangle" style="background-color:' + randomColor +
+                                    '; height:' + templateHeight + 'px; width:' + innerValue + 'px"></div>');
+                            parentContainer.append(rectangleTemplate);
+                            $compile(rectangleTemplate)(scope);
+                        });
+                    });
                 }
 
                 scope.init();
