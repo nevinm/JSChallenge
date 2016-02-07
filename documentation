@@ -45,3 +45,18 @@ An init function is provided where the directive functioning starts:
 * Append the rectangles with the finished data:
 - appendRect()
 _________________________________________________________________________________________________
+
+Future ideas based on this: Adding more value: 	
+
+Convert the process of chart rendering to d3.charts.
+Make it responsive.
+Make it Animated.
+Make the colors with respect to the data. (red shade for lower values, green shade for higher values)
+Make the inputs more dynamic by providing an input field.
+
+_________________________________________________________________________________________________
+
+
+What I coudn't do:
+
+Make it responsive.
