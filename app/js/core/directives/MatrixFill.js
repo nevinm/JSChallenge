@@ -97,6 +97,7 @@ app.directive('matrixFill', ['percentageValues', '$compile', '$timeout',
                             singularWidth = parseFloat((ratio * innerValue).toFixed(2));
                             singularRows.push(singularWidth);
                         });
+                        sum = (sum/percentage) * scope.totalHeight;
                         totalRenderData.push({
                             "height": sum,
                             "width": singularRows
