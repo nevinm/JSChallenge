@@ -1,5 +1,5 @@
-app.directive('matrixFill', ['percentageValues', '$compile', '$timeout',
-    function(percentageValues, $compile, $timeout) {
+app.directive('matrixFill', ['percentageValues', 'createRandomColors', '$compile', '$timeout',
+    function(percentageValues, createRandomColors, $compile, $timeout) {
         return {
             restrict: "E",
             template: '<div class="matrix-fill-container"></div>',
@@ -125,7 +125,7 @@ app.directive('matrixFill', ['percentageValues', '$compile', '$timeout',
                     angular.forEach(renderData, function(value, key) {
                         var templateHeight = value.height;
                         angular.forEach(value.width, function(innerValue, innerKey) {
-                            var randomColor = '#' + Math.random().toString(16).substr(-6),
+                            var randomColor = createRandomColors.pleasingColors(),
                                 rectangleTemplate = angular.element('<div class="rectangle" style="background-color:' + randomColor +
                                     '; height:' + templateHeight + 'px; width:' +
                                     innerValue.percentageData + 'px"><span class="rectangle-data">' + innerValue.originalData + '</span></div>');
