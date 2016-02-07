@@ -24,7 +24,6 @@ app.directive('matrixFill', ['percentageValues', 'createRandomColors', '$compile
 
                 //Random variables
                 var dependancyCheck = percentageValues,
-                    // test = elem,
                     percentage = 100;
 
                 //Starting function
@@ -105,8 +104,6 @@ app.directive('matrixFill', ['percentageValues', 'createRandomColors', '$compile
                         angular.forEach(value, function(innerValue, innerKey) {
                             percentageWidth = parseFloat((ratio * innerValue.percentageData).toFixed(2));
                             originalWidth = innerValue.originalData;
-                            // singularRows.push(percentageWidth);
-                            // originalDataRows.push(innerValue.originalData);
                             mergedDataRows.push({
                                 "percentageData": percentageWidth,
                                 "originalData": originalWidth
@@ -136,9 +133,6 @@ app.directive('matrixFill', ['percentageValues', 'createRandomColors', '$compile
                 }
 
                 scope.init();
-            },
-            controller: function($scope) {
-
             }
         }
     }

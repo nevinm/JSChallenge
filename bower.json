@@ -1,9 +1,8 @@
 {
-  "name": "angular-ui-seed",
-  "description": "A starter project for AngularJS",
-  "version": "0.0.2",
+  "name": "JS-challenge",
+  "description": "A challenge given to be completed in 2 days",
+  "version": "1",
   "homepage": "https://github.com/dokko1230/angular-ui-seed",
-  "license": "MIT",
   "dependencies": {
     "angular": "latest",
     "angular-ui-router": "~0.2.10",

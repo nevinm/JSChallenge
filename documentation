@@ -1,13 +1,47 @@
+ColudCherry - JS Challenge
+_________________________________________________________________________________________________
+
+
+First of all great question, quite challenging. Involvement of maths was quite the twist I needed to awaken my brain. :)
+
+Coming down to the technical side of it:
+
+I used an angular-ui-seed (https://github.com/dokko1230/angular-ui-seed) to create the base boilerplate. 
+The files in which my main contributions are in the following:
+
+index.html		-	angular-ui-seed\app\index.html
+MatrixFill.js 	- 	angular-ui-seed\app\js\core\directives\MatrixFill.js	
+Services.js 	- 	angular-ui-seed\app\js\core\services\services.js
+home.tpl		-	angular-ui-seed\app\js\main\templates\home.tpl.html
+app.css 		- 	angular-ui-seed\app\css\app.css
+_________________________________________________________________________________________________
+
 Logic: 
+Let the initial data be:
 [5, 10, 15, 20, 20, 30, 60] = Initial data
 
 
-We have a static rectangle of 100*50!
+We have a dynamic rectangle where the width and height are provided as such:
+<matrix-fill data="[5, 10, 15, 20, 20, 30, 60]" width="700" height="400"></matrix-fill>
 
-Divide the full rectangle into smaller ones based on division from the initial data - square root times n.
-(But based on percentages)
+Within MatrixFill.js ->
 
-[9, 6, 3] 
-[19, 13, 13] 
-[37]
+An init function is provided where the directive functioning starts:
 
+* Set container styles 
+- scope.setContainerStyles()
+
+* Divide the full rectangle into smaller ones based on division from the initial data - Basically divide the data into smaller arrays of lenth - square root times n (For each row).
+[5, 10, 15]
+[20, 20, 30]
+[60] 
+
+* Now convert these data into percentages  
+-  scope.convertToPerc()
+
+* Retain the original data along with the new percentage values 
+- createUpdatedMatrixObject() and findUnits()
+
+* Append the rectangles with the finished data:
+- appendRect()
+_________________________________________________________________________________________________

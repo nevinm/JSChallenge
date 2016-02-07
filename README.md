@@ -42,11 +42,11 @@ Now browse to the app at `http://localhost:8000/app/index.html`.
             AppCtrl.js
             NavbarCtrl.js
           directives/   --> core directives
-            VersionDirective.js
+            MatrixFill.js
           filters/      --> core filters
             VersionFilter.js
           services/     --> core services
-            VersionService.js
+            Services.js
           templates/    --> core templates
             404.tpl.html
             main.tpl.html
