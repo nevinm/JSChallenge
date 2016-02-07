@@ -36,6 +36,7 @@ app.directive('matrixFill', ['percentageValues', 'createRandomColors', '$compile
                         scope.renderData = scope.findUnits(scope.renderMatrixRatio, scope.totalWidth);
                         scope.appendRect(scope.renderData);
                     } else {
+                        //Or however you want to handle it.
                         alert("Enter correct data.")
                     }
                 }
